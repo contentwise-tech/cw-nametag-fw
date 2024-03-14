@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Custom BLE GATT-->
+<gatt gatt_caching="true" generic_attribute_service="true" header="gatt_db.h" name="Custom BLE GATT" out="gatt_db.c" prefix="gattdb_">
+
+  <!--Generic Access-->
+  <service advertise="false" name="Generic Access" requirement="mandatory" sourceId="org.bluetooth.service.generic_access" type="primary" uuid="1800">
+    <informativeText>Abstract: The generic_access service contains generic information about the device. All available Characteristics are readonly. </informativeText>
+
+    <!--Device Name-->
+    <characteristic const="false" id="device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
+      <value length="11" type="utf-8" variable_length="false">CW Name Tag</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Appearance-->
+    <characteristic const="true" name="Appearance" sourceId="org.bluetooth.characteristic.gap.appearance" uuid="2A01">
+      <informativeText>Abstract: The external appearance of this device. The values are composed of a category (10-bits) and sub-categories (6-bits). </informativeText>
+      <value length="2" type="hex" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--First Name-->
+    <characteristic const="false" id="first_name" name="First Name" sourceId="org.bluetooth.characteristic.first_name" uuid="2A8A">
+      <informativeText>Abstract: First name of the user. See Note below.</informativeText>
+      <value length="15" type="utf-8" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Last Name-->
+    <characteristic const="false" id="last_name" name="Last Name" sourceId="org.bluetooth.characteristic.last_name" uuid="2A90">
+      <informativeText>Abstract: Last name of the user. See Note below.</informativeText>
+      <value length="15" type="utf-8" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Temperature Measurement-->
+    <characteristic const="false" id="temperature_measurement" name="Temperature Measurement" sourceId="org.bluetooth.characteristic.temperature_measurement" uuid="2A1C">
+      <informativeText>Abstract: 
+    The Temperature Measurement characteristic is a variable length structure containing a Flags field, a Temperature Measurement Value field and, based upon the contents of the Flags field, optionally a Time Stamp field and/or a Temperature Type field.            
+		
+Summary: 
+    The flags is the first field sent followed by the Temperature Measurement Value.            
+		
+Examples: 
+      If the value of bit 1 of the Flags field is 0 and bit 2 is 0, the structure of the Temperature Measurement characteristic consists of two fields in this order; Flags and Temperature Measurement Value.
+     
+      If the value of bit 1 of the Flags field is 1 (Time Stamp) and bit 2 is 0, the structure of the Temperature Measurement characteristic consists of three fields in this order: Flags, Temperature Measurement Value and Time Stamp.
+     
+      If the value of bit 1 of the Flags field is 1 and bit 2 is 1 (Time Stamp and Temperature Type), the structure of the Temperature Measurement characteristic consists of four fields in this order: Flags, Temperature Measurement Value, Time Stamp and Temperature Type.
+     
+      If the value of bit 1 of the Flags field is 0 and bit 2 is 1 (Temperature Type), the structure of the Temperature Measurement characteristic consists of three fields in this order: Flags, Temperature Measurement Value and Temperature Type.
+    </informativeText>
+      <value length="17" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--QRcode-->
+    <characteristic const="false" id="qr_code" name="QRcode" sourceId="" uuid="1570dbbc-fb1b-48e1-91ef-c1f55a5093f5">
+      <value length="255" type="hex" variable_length="false">00</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Score-->
+    <characteristic const="false" id="score" name="Score" sourceId="org.bluetooth.characteristic.score" uuid="9d9946a8-41d0-46c7-beb2-d8dc38562125">
+      <value length="15" type="hex" variable_length="false">00</value>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Device Information-->
+  <service advertise="false" id="device_information" name="Device Information" requirement="mandatory" sourceId="org.bluetooth.service.device_information" type="primary" uuid="180A">
+    <informativeText>Abstract: The Device Information Service exposes manufacturer and/or vendor information about a device. Summary: This service exposes manufacturer information about a device. The Device Information Service is instantiated as a Primary Service. Only one instance of the Device Information Service is exposed on a device.</informativeText>
+
+    <!--Manufacturer Name String-->
+    <characteristic const="true" id="manufacturer_name_string" name="Manufacturer Name String" sourceId="org.bluetooth.characteristic.manufacturer_name_string" uuid="2A29">
+      <informativeText>Abstract: The value of this characteristic is a UTF-8 string representing the name of the manufacturer of the device.</informativeText>
+      <value length="12" type="utf-8" variable_length="false">CONTENTWISE</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--System ID-->
+    <characteristic const="false" id="system_id" name="System ID" sourceId="org.bluetooth.characteristic.system_id" uuid="2A23">
+      <informativeText>Abstract: The SYSTEM ID characteristic consists of a structure with two fields. The first field are the LSOs and the second field contains the MSOs. This is a 64-bit structure which consists of a 40-bit manufacturer-defined identifier concatenated with a 24 bit unique Organizationally Unique Identifier (OUI). The OUI is issued by the IEEE Registration Authority (http://standards.ieee.org/regauth/index.html) and is required to be used in accordance with IEEE Standard 802-2001.6 while the least significant 40 bits are manufacturer defined. If System ID generated based on a Bluetooth Device Address, it is required to be done as follows. System ID and the Bluetooth Device Address have a very similar structure: a Bluetooth Device Address is 48 bits in length and consists of a 24 bit Company Assigned Identifier (manufacturer defined identifier) concatenated with a 24 bit Company Identifier (OUI). In order to encapsulate a Bluetooth Device Address as System ID, the Company Identifier is concatenated with 0xFFFE followed by the Company Assigned Identifier of the Bluetooth Address. For more guidelines related to EUI-64, refer to http://standards.ieee.org/develop/regauth/tut/eui64.pdf. Examples: If the system ID is based of a Bluetooth Device Address with a Company Identifier (OUI) is 0x123456 and the Company Assigned Identifier is 0x9ABCDE, then the System Identifier is required to be 0x123456FFFE9ABCDE.</informativeText>
+      <value length="8" type="hex" variable_length="false">01</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Location and Navigation-->
+  <service advertise="false" id="location_and_navigation" name="Location and Navigation" requirement="mandatory" sourceId="org.bluetooth.service.location_and_navigation" type="primary" uuid="1819">
+    <informativeText>Abstract: This service exposes location and navigation-related data from a Location and Navigation sensor intended for outdoor activity applications.
+Summary: The Location and Navigation Service (LN Service) exposes location and navigation-related data from a Location and Navigation sensor (Server) intended for outdoor activity applications.</informativeText>
+
+    <!--LN Feature-->
+    <characteristic const="false" id="ln_feature" name="LN Feature" sourceId="org.bluetooth.characteristic.ln_feature" uuid="2A6A">
+      <informativeText>
+Summary: The LN Feature characteristic is used to report a list of features supported by the device.</informativeText>
+      <value length="4" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Location and Speed Characteristic-->
+    <characteristic const="false" id="location_and_speed" name="Location and Speed Characteristic" sourceId="org.bluetooth.characteristic.location_and_speed" uuid="2A67">
+      <informativeText>
+Summary: The Location and Speed characteristic is a variable length structure containing a Flags field and, based on the contents of the Flags field, may contain a combination of data fields listed below. Note that it is possible for this characteristic to exceed the default LE MTU size.</informativeText>
+      <value length="28" type="hex" variable_length="false"/>
+      <properties>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Position Quality-->
+    <characteristic const="false" id="position_quality" name="Position Quality" sourceId="org.bluetooth.characteristic.position_quality" uuid="2A69">
+      <informativeText>
+Summary: The Position Quality characteristic is a variable length structure containing a Flags field and at least one of the optional data fields listed below</informativeText>
+      <value length="16" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--LN Control Point-->
+    <characteristic const="false" id="ln_control_point" name="LN Control Point" sourceId="org.bluetooth.characteristic.ln_control_point" uuid="2A6B">
+      <informativeText>
+Summary: The LN Control Point characteristic is used to request a specific function to be executed on the receiving device.</informativeText>
+      <value length="3" type="hex" variable_length="true"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+        <indicate authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Navigation-->
+    <characteristic const="false" id="navigation" name="Navigation" sourceId="org.bluetooth.characteristic.navigation" uuid="2A68">
+      <informativeText>
+Summary: The Navigation characteristic is a variable length structure containing a Flags field, a Bearing field, a Heading field and, based on the contents of the Flags field, may contain a combination of data fields listed below.</informativeText>
+      <value length="19" type="hex" variable_length="false"/>
+      <properties>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Alert Notification Service-->
+  <service advertise="false" id="alert_notification" name="Alert Notification Service" requirement="mandatory" sourceId="org.bluetooth.service.alert_notification" type="primary" uuid="1811">
+    <informativeText>Abstract: 
+            Alert Notification service exposes:
+            - The different types of alerts with the short text messages.
+            - The information how many count of new alert messages.
+            - The information how many count of unread alerts.
+		
+Summary:             
+            The Alert Notification service exposes alert information in a device.  This information includes the following:
+            - Type of alert occuring in a device.
+            - Additional text information such as caller ID or sender ID
+            - Count of new alerts.
+            - Count of unread alert items.
+        </informativeText>
+
+    <!--Supported New Alert Category-->
+    <characteristic const="false" id="supported_new_alert_category" name="Supported New Alert Category" sourceId="org.bluetooth.characteristic.supported_new_alert_category" uuid="2A47">
+      <informativeText>Abstract: Category that the server supports for new alert.
+Summary: This characteristic uses the Alert Category ID Bit Mask Characteristic.  If bit(s) is/are set, it means the server supports the corresponded categories for new incoming alert.
+Examples: The value 0x0a is interpreted that this server supports "Call" and "Email" categories.</informativeText>
+      <value length="2" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--New Alert-->
+    <characteristic const="false" id="new_alert" name="New Alert" sourceId="org.bluetooth.characteristic.new_alert" uuid="2A46">
+      <informativeText>Abstract:             
+       This characteristic defines the category of the alert and how many new alerts of that category have occurred in the server device. Brief text information may also be included for the last alert in the category. 
+        
+Summary: 
+            This characteristic consists of "Category ID", "uint8", and "UTF-8 string" fields. The size of this characteristic is dynamic because of the variable length text ("UTF-8") field. The minimum length of "UTF-8 string" is 0 octets and maximum length of "UTF-8 string" is 18 octets. 
+         
+Examples: The value 0x03, 0x04, 0x52, 0x69, 0x63, 0x68, 0x61, 0x72, 0x64 are interpreted that the server has 4 new email messages and the last message was sent by "Richard".</informativeText>
+      <value length="3" type="utf-8" variable_length="false"/>
+      <properties>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Supported Unread Alert Category-->
+    <characteristic const="false" id="supported_unread_alert_category" name="Supported Unread Alert Category" sourceId="org.bluetooth.characteristic.supported_unread_alert_category" uuid="2A48">
+      <informativeText>Abstract: Category that the server supports for unread alert.
+Summary: This characteristic uses the Alert Category ID Bit Mask Characteristic.  If bit(s) is/are set, it means the server supports the corresponded categories for unread alert.
+Examples: The value 0x03 is interpreted that this server supports "Simple Alert" and "Email" categories for unread alert.</informativeText>
+      <value length="2" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Unread Alert Status-->
+    <characteristic const="false" id="unread_alert_status" name="Unread Alert Status" sourceId="org.bluetooth.characteristic.unread_alert_status" uuid="2A45">
+      <informativeText>Abstract: This characteristic shows how many numbers of unread alerts exist in the specific category in the device.
+Summary: This characteristic consists of "Category ID" and "uint8" which shows the number of unread alerts/messages.
+Examples: The value 0x01, 0x04 are interpreted that the server has 4 unread messages in Email category.</informativeText>
+      <value length="2" type="hex" variable_length="false"/>
+      <properties>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Alert Notification Control Point-->
+    <characteristic const="false" id="alert_notification_control_point" name="Alert Notification Control Point" sourceId="org.bluetooth.characteristic.alert_notification_control_point" uuid="2A44">
+      <informativeText>Abstract: Control point of the Alert Notification server.  Client can write the command here to request the several functions toward the server.
+Summary: 
+         The 1st octet value of the characteristic is an unsigned 8 bit integer that has a fixed point exponent of 0.  The 1st octet value expresses the command ID that defines the server's actions.
+		 The 2nd octet value of the characteristic is an "Alert Category ID" format.  This octet shows the target category that the command ID applies for.
+        
+Examples: The data 0x02 0x01 interprets "Disable New Incoming Notification for Email Category".</informativeText>
+      <value length="2" type="hex" variable_length="false"/>
+      <properties>
+        <write authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+</gatt>

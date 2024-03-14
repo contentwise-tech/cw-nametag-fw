@@ -1,0 +1,16 @@
+# Ignore Simplicity Studio generated files
+.pdm/
+.settings/
+.uceditor/
+autogen/
+
+# Ignore default build directory
+GNU\ ARM\ v12.2.1\ -\ Default/
+
+# Ignore assets that were part of project
+image/
+*.pdf
+
+# Include autogen linker script
+!autogen/linkerfile.ld
+
